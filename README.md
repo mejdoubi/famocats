@@ -2,40 +2,23 @@
 
 Little SPA showcasing cats using React.
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-Node and npm.
-
 ### Getting started
 
 ```
+
+git clone git@github.com:mejdoubi/famocats.git famocats
+cd famocats
 npm start
 ```
 
-### Build
+### Deployment on Heroku
 
-```
-npm build
-```
-
-## Running the tests
-
-```
-npm test
-```
-
-### Deployment
-
-Static server using node
+Using Heroku Buildpack for create-react-app.
 
 ```
 
-npm install -g serve
-serve -s build
+heroku create famocats --region eu --buildpack mars/create-react-app
+git push heroku master
 ```
 
 ## Authors
