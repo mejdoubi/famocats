@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import catsReducer from './catsReducer';
+import breedsReducer from './breedsReducer';
 
 export default combineReducers({
-	cats: catsReducer
+	breeds: breedsReducer
 });

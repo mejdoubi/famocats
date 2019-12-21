@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,7 +8,8 @@ import 'typeface-roboto';
 import Header from './Header';
 import Footer from './Footer';
 
-import CatBreeds from './cats/CatBreeds';
+import Home from './Home';
+import BreedsList from './cats/BreedsList';
 
 // MATERIAL-UI
 // #636463 primary
@@ -29,15 +30,16 @@ const App = () => {
 		<React.Fragment>
 			<CssBaseline />
 			<MuiThemeProvider theme={theme}>
-				<BrowserRouter>
+				<Router>
 					<div>
 						<Header />
 						<Switch>
-							<Route path="/" exact component={CatBreeds} />
+							<Route exact path="/" component={Home} />
+							<Route exact path="/breeds" component={BreedsList} />
 						</Switch>
 						<Footer />
 					</div>
-				</BrowserRouter>
+				</Router>
 			</MuiThemeProvider>
 		</React.Fragment>
 	);
