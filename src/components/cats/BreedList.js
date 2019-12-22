@@ -150,7 +150,7 @@ class BreedList extends React.Component {
 									</Table>
 								</TableContainer>
 								<TablePagination
-									rowsPerPageOptions={[5, 10, 25]}
+									rowsPerPageOptions={[5, 10, 15]}
 									component="div"
 									count={breeds.length}
 									rowsPerPage={rowsPerPage}
