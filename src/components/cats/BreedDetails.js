@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 		}
 	},
 	cardHeader: {
-		backgroundColor: theme.palette.primary
+		backgroundColor: theme.palette.secondary.light
 	}
 }));
 
@@ -30,12 +30,16 @@ const BreedDetails = ({ breed }) => {
 	const classes = useStyles();
 	let cardAction;
 
-	if (Object.keys(breed).length > 0) {
+	if (breed.wikipedia_url) {
 		cardAction = (
 			<CardActions>
-				<Button fullWidth color="primary" href={breed.cfa_url} target="_blank">
+				<Button
+					fullWidth
+					color="primary"
+					href={breed.wikipedia_url}
+					target="_blank">
 					<LibraryBooksIcon />
-					<Typography>More Info on CFA.org</Typography>
+					<Typography>More Info on Wikipedia</Typography>
 				</Button>
 			</CardActions>
 		);

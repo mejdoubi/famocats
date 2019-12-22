@@ -11,7 +11,8 @@ import {
 	TableRow,
 	TableCell,
 	TableBody,
-	TablePagination
+	TablePagination,
+	CircularProgress
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import ReactCountryFlag from 'react-country-flag';
@@ -26,6 +27,11 @@ const styles = theme => ({
 	paper: {
 		textAlign: 'center',
 		color: theme.palette.text.secondary
+	},
+	row: {
+		'&:nth-of-type(odd)': {
+			backgroundColor: theme.palette.secondary.light
+		}
 	}
 });
 
@@ -63,16 +69,17 @@ class BreedList extends React.Component {
 	};
 
 	renderBreeds() {
-		const breeds = this.props.breeds.slice(
+		const { classes, breeds } = this.props;
+		const slicedBreeds = breeds.slice(
 			this.state.currentPage * this.state.rowsPerPage,
 			this.state.currentPage * this.state.rowsPerPage + this.state.rowsPerPage
 		);
-		return breeds.map((breed, index) => (
+		return slicedBreeds.map((breed, index) => (
 			<TableRow
 				hover
 				onClick={e => this.handleClick(e, breed)}
 				key={breed.id}
-				style={index % 2 ? { background: '#ddefc3' } : { background: 'white' }}>
+				className={classes.row}>
 				<TableCell>{breed.name}</TableCell>
 				<TableCell>
 					<ReactCountryFlag
@@ -95,7 +102,11 @@ class BreedList extends React.Component {
 		const { currentPage, rowsPerPage, currentBreed } = this.state;
 
 		if (breeds.length === 0) {
-			return <div>Loading...</div>;
+			return (
+				<Grid container spacing={2} justify="center" alignItems="center">
+					<CircularProgress color="secondary" />
+				</Grid>
+			);
 		}
 
 		return (
