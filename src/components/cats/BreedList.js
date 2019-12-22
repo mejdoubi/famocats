@@ -12,7 +12,6 @@ import {
 	TableCell,
 	TableBody,
 	TablePagination,
-	Tooltip,
 	CircularProgress
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -76,27 +75,25 @@ class BreedList extends React.Component {
 			this.state.currentPage * this.state.rowsPerPage + this.state.rowsPerPage
 		);
 		return slicedBreeds.map(breed => (
-			<Tooltip title={breed.name}>
-				<TableRow
-					hover
-					onClick={e => this.handleClick(e, breed)}
-					key={breed.id}
-					className={classes.row}>
-					<TableCell>{breed.name}</TableCell>
-					<TableCell>
-						<ReactCountryFlag
-							svg
-							countryCode={breed.country_code}
-							title={breed.country_code}
-							aria-label={breed.origin}
-						/>
-						{breed.origin}
-					</TableCell>
-					<TableCell>{breed.temperament}</TableCell>
-					<TableCell>{breed.life_span}</TableCell>
-					<TableCell>{breed.weight.metric}</TableCell>
-				</TableRow>
-			</Tooltip>
+			<TableRow
+				hover
+				onClick={e => this.handleClick(e, breed)}
+				key={breed.id}
+				className={classes.row}>
+				<TableCell>{breed.name}</TableCell>
+				<TableCell>
+					<ReactCountryFlag
+						svg
+						countryCode={breed.country_code}
+						title={breed.country_code}
+						aria-label={breed.origin}
+					/>
+					{breed.origin}
+				</TableCell>
+				<TableCell>{breed.temperament}</TableCell>
+				<TableCell>{breed.life_span}</TableCell>
+				<TableCell>{breed.weight.metric}</TableCell>
+			</TableRow>
 		));
 	}
 
