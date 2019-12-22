@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -13,4 +12,4 @@ const Home = props => {
 	return <div>Home</div>;
 };
 
-export default withRouter(Home);
+export default Home;
