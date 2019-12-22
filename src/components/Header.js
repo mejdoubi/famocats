@@ -16,7 +16,12 @@ const useStyles = makeStyles(theme => ({
 		flexWrap: 'wrap'
 	},
 	logo: {
-		maxWidth: 100
+		maxWidth: 120,
+		marginBottom: '-6px',
+		[theme.breakpoints.down('xs')]: {
+			maxWidth: 80,
+			marginBottom: '-12px'
+		}
 	},
 	link: {
 		margin: theme.spacing(1, 1.5)
@@ -44,10 +49,6 @@ const Header = props => {
 
 						<Button component={Link} to="/breeds" className={classes.link}>
 							Breeds
-						</Button>
-
-						<Button component={Link} to="/vote" className={classes.link}>
-							Vote
 						</Button>
 					</nav>
 				</Toolbar>

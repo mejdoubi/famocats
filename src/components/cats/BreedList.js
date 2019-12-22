@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
 	Container,
 	Typography,
+	Grid,
 	Paper,
 	TableContainer,
 	Table,
@@ -12,9 +13,21 @@ import {
 	TableBody,
 	TablePagination
 } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import ReactCountryFlag from 'react-country-flag';
 
 import BreedDetails from './BreedDetails';
 import { fetchBreeds } from '../../actions';
+
+const styles = theme => ({
+	main: {
+		flexGrow: 1
+	},
+	paper: {
+		textAlign: 'center',
+		color: theme.palette.text.secondary
+	}
+});
 
 class BreedList extends React.Component {
 	constructor(props) {
@@ -22,7 +35,6 @@ class BreedList extends React.Component {
 		this.state = {
 			currentPage: 0,
 			rowsPerPage: 5,
-			showBreedDetails: false,
 			currentBreed: {}
 		};
 	}
@@ -44,7 +56,10 @@ class BreedList extends React.Component {
 	};
 
 	handleClick = (e, breed) => {
-		this.setState({ ...this.state, showDetails: true, currentBreed: breed });
+		this.setState({
+			...this.state,
+			currentBreed: breed
+		});
 	};
 
 	renderBreeds() {
@@ -59,15 +74,30 @@ class BreedList extends React.Component {
 				key={breed.id}
 				style={index % 2 ? { background: '#ddefc3' } : { background: 'white' }}>
 				<TableCell>{breed.name}</TableCell>
-				<TableCell>{breed.origin}</TableCell>
+				<TableCell>
+					<ReactCountryFlag
+						svg
+						countryCode={breed.country_code}
+						title={breed.country_code}
+						aria-label={breed.origin}
+					/>
+					{breed.origin}
+				</TableCell>
+				<TableCell>{breed.temperament}</TableCell>
 				<TableCell>{breed.life_span}</TableCell>
 				<TableCell>{breed.weight.metric}</TableCell>
-				<TableCell>{breed.description}</TableCell>
 			</TableRow>
 		));
 	}
 
 	render() {
+		const { classes, breeds } = this.props;
+		const { currentPage, rowsPerPage, currentBreed } = this.state;
+
+		if (breeds.length === 0) {
+			return <div>Loading...</div>;
+		}
+
 		return (
 			<React.Fragment>
 				<Container
@@ -90,37 +120,39 @@ class BreedList extends React.Component {
 						Browse through our list of cat breeds and find the best cat for you.
 					</Typography>
 				</Container>
-				<Container maxWidth="lg" component="main">
-					<Paper>
-						<TableContainer>
-							<Table size="small" stickyHeader>
-								<TableHead>
-									<TableRow>
-										<TableCell>Name</TableCell>
-										<TableCell>Origin</TableCell>
-										<TableCell>Average Life Span</TableCell>
-										<TableCell>Weight (kg)</TableCell>
-										<TableCell align="center">Description</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>{this.renderBreeds()}</TableBody>
-							</Table>
-						</TableContainer>
-						<TablePagination
-							rowsPerPageOptions={[5, 10, 25]}
-							component="div"
-							count={this.props.breeds.length}
-							rowsPerPage={this.state.rowsPerPage}
-							page={this.state.currentPage}
-							onChangePage={this.handleChangePage}
-							onChangeRowsPerPage={this.handleChangeRowsPerPage}
-						/>
-					</Paper>
-					<Paper>
-						{this.state.showBreedDetails && (
-							<BreedDetails breed={this.state.currentBreed} />
-						)}
-					</Paper>
+				<Container component="main" className={classes.main}>
+					<Grid container spacing={2}>
+						<Grid item xs md={8}>
+							<Paper className={classes.paper}>
+								<TableContainer>
+									<Table size="small" stickyHeader>
+										<TableHead>
+											<TableRow>
+												<TableCell>Name</TableCell>
+												<TableCell>Origin</TableCell>
+												<TableCell>Temperament</TableCell>
+												<TableCell>Average Life Span</TableCell>
+												<TableCell>Weight (kg)</TableCell>
+											</TableRow>
+										</TableHead>
+										<TableBody>{this.renderBreeds()}</TableBody>
+									</Table>
+								</TableContainer>
+								<TablePagination
+									rowsPerPageOptions={[5, 10, 25]}
+									component="div"
+									count={breeds.length}
+									rowsPerPage={rowsPerPage}
+									page={currentPage}
+									onChangePage={this.handleChangePage}
+									onChangeRowsPerPage={this.handleChangeRowsPerPage}
+								/>
+							</Paper>
+						</Grid>
+						<Grid item xs>
+							<BreedDetails breed={currentBreed} />
+						</Grid>
+					</Grid>
 				</Container>
 			</React.Fragment>
 		);
@@ -133,4 +165,6 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchBreeds })(BreedList);
+export default withStyles(styles)(
+	connect(mapStateToProps, { fetchBreeds })(BreedList)
+);

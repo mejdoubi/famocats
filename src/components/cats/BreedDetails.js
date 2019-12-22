@@ -1,13 +1,15 @@
 import React from 'react';
 import {
-	Container,
 	Grid,
 	Card,
 	CardHeader,
 	CardContent,
+	CardActions,
+	Button,
 	Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 
 const useStyles = makeStyles(theme => ({
 	'@global': {
@@ -20,63 +22,44 @@ const useStyles = makeStyles(theme => ({
 		}
 	},
 	cardHeader: {
-		backgroundColor:
-			theme.palette.type === 'dark'
-				? theme.palette.grey[700]
-				: theme.palette.grey[200]
-	},
-	cardPricing: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'baseline',
-		marginBottom: theme.spacing(2)
+		backgroundColor: theme.palette.primary
 	}
 }));
 
-const BreedDetails = props => {
+const BreedDetails = ({ breed }) => {
 	const classes = useStyles();
+	let cardAction;
 
-	const breed = this.props.breed;
-	const attributes = breed => {
-		let attr = [];
-		for (let prop in breed) {
-			if (Object.prototype.hasOwnProperty(prop)) {
-				if (breed[prop] === 5) {
-					attr.push(prop);
-				}
-			}
-		}
-		return attr;
-	};
+	if (Object.keys(breed).length > 0) {
+		cardAction = (
+			<CardActions>
+				<Button fullWidth color="primary" href={breed.cfa_url} target="_blank">
+					<LibraryBooksIcon />
+					<Typography>More Info on CFA.org</Typography>
+				</Button>
+			</CardActions>
+		);
+	}
 
 	return (
-		<Container maxWidth="md" component="main">
-			<Grid container spacing={5} alignItems="flex-end">
-				<Grid item key={breed.id} xs={12} sm={12} md={4}>
-					<Card>
-						<CardHeader
-							title={breed.name}
-							titleTypographyProps={{ align: 'center' }}
-							subheaderTypographyProps={{ align: 'center' }}
-							className={classes.cardHeader}
-						/>
-						<CardContent>
-							<ul>
-								{attributes.map(attr => (
-									<Typography
-										component="li"
-										variant="subtitle1"
-										align="center"
-										key={attr}>
-										{attr}
-									</Typography>
-								))}
-							</ul>
-						</CardContent>
-					</Card>
-				</Grid>
-			</Grid>
-		</Container>
+		<Grid key={breed.id}>
+			<Card>
+				<CardHeader
+					title={breed.name || 'Welcome'}
+					subheader={breed.alt_names}
+					titleTypographyProps={{ align: 'center' }}
+					subheaderTypographyProps={{ align: 'center' }}
+					className={classes.cardHeader}
+				/>
+				<CardContent>
+					<Typography component="p" variant="body1" color="textPrimary">
+						{breed.description ||
+							'Please select a breed from the list on the left'}
+					</Typography>
+				</CardContent>
+				{cardAction}
+			</Card>
+		</Grid>
 	);
 };
 
