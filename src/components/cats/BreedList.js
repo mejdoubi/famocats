@@ -82,10 +82,13 @@ class BreedList extends React.Component {
 				className={classes.row}>
 				<TableCell>{breed.name}</TableCell>
 				<TableCell>
+					{/* Little error in TheCatAPI for Singapore's ISO country code */}
 					<ReactCountryFlag
 						svg
-						countryCode={breed.country_code}
-						title={breed.country_code}
+						countryCode={
+							breed.country_code === 'SP' ? 'SG' : breed.country_code
+						}
+						title={breed.country_code === 'SP' ? 'SG' : breed.country_code}
 						aria-label={breed.origin}
 					/>
 					{breed.origin}
