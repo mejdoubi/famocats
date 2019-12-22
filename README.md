@@ -1,4 +1,4 @@
-[![famocats](/src/assets/img/banner.png)]
+![famocats](/src/assets/img/banner.png)
 
 Little SPA showcasing cats using React.
 
